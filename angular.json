@@ -1,0 +1,164 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ep-core-lib": {
+      "projectType": "library",
+      "root": "projects/ep-core-lib",
+      "sourceRoot": "projects/ep-core-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ep-core-lib/tsconfig.lib.json",
+            "project": "projects/ep-core-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ep-core-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ep-core-lib/src/test.ts",
+            "tsConfig": "projects/ep-core-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/ep-core-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ep-core-lib/tsconfig.lib.json",
+              "projects/ep-core-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ep-core-lib-tester": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/ep-core-lib-tester",
+      "sourceRoot": "projects/ep-core-lib-tester/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ep-core-lib-tester",
+            "index": "projects/ep-core-lib-tester/src/index.html",
+            "main": "projects/ep-core-lib-tester/src/main.ts",
+            "polyfills": "projects/ep-core-lib-tester/src/polyfills.ts",
+            "tsConfig": "projects/ep-core-lib-tester/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ep-core-lib-tester/src/favicon.ico",
+              "projects/ep-core-lib-tester/src/assets"
+            ],
+            "styles": [
+              "projects/ep-core-lib-tester/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ep-core-lib-tester/src/environments/environment.ts",
+                  "with": "projects/ep-core-lib-tester/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ep-core-lib-tester:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ep-core-lib-tester:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ep-core-lib-tester:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ep-core-lib-tester/src/test.ts",
+            "polyfills": "projects/ep-core-lib-tester/src/polyfills.ts",
+            "tsConfig": "projects/ep-core-lib-tester/tsconfig.spec.json",
+            "karmaConfig": "projects/ep-core-lib-tester/karma.conf.js",
+            "assets": [
+              "projects/ep-core-lib-tester/src/favicon.ico",
+              "projects/ep-core-lib-tester/src/assets"
+            ],
+            "styles": [
+              "projects/ep-core-lib-tester/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ep-core-lib-tester/tsconfig.app.json",
+              "projects/ep-core-lib-tester/tsconfig.spec.json",
+              "projects/ep-core-lib-tester/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ep-core-lib-tester/e2e/protractor.conf.js",
+            "devServerTarget": "ep-core-lib-tester:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ep-core-lib-tester:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ep-core-lib"
+}
